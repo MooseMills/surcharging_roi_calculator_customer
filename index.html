@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unlock Surcharging Savings | Dental Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Text:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+
+        <header class="header">
+            <img src="https://4394269.fs1.hubspotusercontent-na1.net/hubfs/4394269/di%20logo%20dark.png" alt="Dental Intelligence" class="logo-image">
+        </header>
+
+        <main class="main-content">
+            <section class="intro-section">
+                <div class="intro-with-icon">
+                    <img src="https://4394269.fs1.hubspotusercontent-na1.net/hubfs/4394269/ROI-c-sur@2x.png" alt="ROI Calculator" class="intro-icon">
+                    <div class="intro-text">
+                        <h2 class="section-title"> <span id="practiceNameTitle">Your Practice</span> Has <span class="highlight">Thousands</span> in Savings Unclaimed</h2>
+                        <p class="section-description">
+                            You're already using Dental Intelligence — but processing fees are still eating into your overall profitability. That's where surcharging comes in.
+                        </p>
+                        <p class="section-description">
+                            Adding Xplor Pay Empower surcharging to your existing DI Payments setup helps reduce most
+                            practices' effective rates to 1.07% or lower — reclaiming thousands annually with no change
+                            to your platform or workflow.
+                        </p>
+                      <p class="section-description">
+                        The best part? Surcharging is already included in your Dental Intelligence subscription. There's nothing extra to buy — just activate it and start saving.
+                      </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="calculator-section">
+                <div class="card input-card">
+                    <h3 class="card-title">Calculate <span id="practiceNameHeader">Your</span> Surcharging Savings</h3>
+                    <p class="section-description" style="margin-bottom: var(--spacing-xs); margin-top: -0.5rem;">Enter a few numbers from your current processing volume to see your potential savings. </p>
+                    <p class="helper-text" style="background: none; padding: 0;margin-bottom: var(--spacing-md); ">Your numbers may be prefilled from your Dental Intelligence data — adjust them anytime to explore different scenarios.</p>
+
+                    <!-- Hidden fields: pre-filled via URL params, never shown to customer -->
+                    <!-- URL params: current_rate=2.79  |  di_cost=899 -->
+                    <input type="hidden" id="currentRate" value="">
+                    <input type="hidden" id="diCost" value="">
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="monthlyVolume">What's your monthly card processing volume?</label>
+                            <div class="input-wrapper">
+                                <span class="input-prefix">$</span>
+                                <input type="text" id="monthlyVolume" placeholder="80,000" inputmode="numeric">
+                            </div>
+                          <div class="helper-text">
+                                Average payments processed via card (both debit and credit).
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="creditCardPercentage">What percentage of your payments are by credit card?</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="creditCardPercentage" placeholder="50" min="0" max="100" step="1">
+                                <span class="input-suffix">%</span>
+                            </div>
+                            <div class="helper-text">
+                                Typically 45–65% for most practices. Specialty practices may be higher.
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="calculate-btn" onclick="calculateROI()">Calculate My Free Savings</button>
+
+                </div><!-- /card input-card -->
+
+                <!-- Results (hidden until calculation runs) -->
+                <div class="results-section" id="resultsSection">
+
+                    <!-- Savings Banner -->
+                    <div class="savings-banner">
+                        <p class="savings-banner-label"><span id="practiceNameAnnual">What You</span> could save with surcharging</p>
+                        <div class="savings-stat-row">
+                            <div class="savings-stat-block">
+                                <span class="savings-stat-label">Monthly Savings</span>
+                                <span class="savings-stat-value" id="monthlySavings">$0</span>
+                            </div>
+                            <div class="savings-stat-divider"></div>
+                            <div class="savings-stat-block primary">
+                                <span class="savings-stat-label">Annual Savings</span>
+                                <span class="savings-stat-value" id="annualSavings">$0</span>
+                            </div>
+                            <div class="savings-stat-divider" id="diStatDivider"></div>
+                            <div class="savings-stat-block" id="diStatBlock">
+                                <span class="savings-stat-label">Months of DI Covered</span>
+                                <span class="savings-stat-value" id="diMonthsCovered">—</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ROI Claim -->
+                    <div class="roi-claim">
+                        <div class="roi-claim-icon">💡</div>
+                        <div class="roi-claim-text">
+                            <p id="roiClaimText"></p>
+                        </div>
+                    </div>
+
+                    <!-- Before / After Breakdown -->
+                    <div class="breakdown-grid">
+    <div class="breakdown-card">
+        <div class="breakdown-card-title">Today — Without Surcharging</div>
+        <div class="breakdown-row">
+            <span class="breakdown-row-label">Monthly Processing Fees</span>
+            <span class="breakdown-row-value" id="bfProcessing">—</span>
+        </div>
+        <div class="breakdown-row">
+            <span class="effective-rate-label">Effective Rate
+                <span class="rate-tooltip">The total % of your card volume paid in processing fees</span>
+            </span>
+            <span class="effective-rate-value" id="bfRate">—</span>
+        </div>
+        <div class="breakdown-total">
+            <span class="total-label">Annual Processing Cost</span>
+            <span class="total-val" id="bfTotal">—</span>
+        </div>
+    </div>
+
+    <div class="arrow-divider">→</div>
+
+    <div class="breakdown-card after">
+        <div class="breakdown-card-title">With Surcharging Added</div>
+        <div class="breakdown-row">
+            <span class="breakdown-row-label">Monthly Processing Fees</span>
+            <span class="breakdown-row-value" id="afProcessing">—</span>
+        </div>
+        <div class="breakdown-row">
+            <span class="effective-rate-label">Effective Rate
+                <span class="rate-tooltip">The total % of your card volume paid in processing fees</span>
+            </span>
+            <span class="effective-rate-value green" id="afRate">—</span>
+        </div>
+        <div class="breakdown-total">
+            <span class="total-label">Annual Processing Cost</span>
+            <span class="total-val" id="afTotal">—</span>
+        </div>
+    </div>
+</div>
+
+                    <!-- How Surcharging Works -->
+<div class="what-changes">
+    <h3>How Surcharging Works for Your Practice</h3>
+    <div class="changes-grid">
+        <div class="change-item">
+            <span class="change-icon">⚙️</span>
+            <h4>No Workflow Changes</h4>
+            <p>Surcharging is built directly into your existing DI Payments setup. Nothing changes for your team at the front desk.</p>
+        </div>
+        <div class="change-item">
+            <span class="change-icon">🌐</span>
+            <h4>Works Everywhere You Collect</h4>
+            <p>Whether patients pay in-office or through the online patient portal, the surcharge is applied automatically at checkout.</p>
+        </div>
+      <div class="change-item">
+            <span class="change-icon">💳</span>
+            <h4>Patients Pay the Fee</h4>
+            <p>A 3% surcharge is automatically added when a patient pays by credit card — so your practice keeps more of every dollar collected.</p>
+        </div>
+    </div>
+</div>
+
+                    <!-- Disclaimer -->
+                    <div class="info-note">
+                        <p>
+                            <strong>Note:</strong> This is an estimate based on the numbers provided. Actual savings may vary
+                            due to monthly fluctuations in credit card and total processing volume. Surcharging is not currently
+                            available in Colorado, Connecticut, Maine, Massachusetts, New York, or Oklahoma.
+                        </p>
+                    </div>
+
+                </div><!-- /results-section -->
+
+            </section><!-- /calculator-section -->
+
+        </main>
+
+        <footer class="footer">
+            <p>© 2026 Dental Intelligence. All rights reserved.</p>
+        </footer>
+
+    </div><!-- /container -->
+
+    <script src="script.js"></script>
+</body>
+</html>
